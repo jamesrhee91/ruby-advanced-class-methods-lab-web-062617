@@ -13,21 +13,20 @@ class Song
   end
 
   def self.create
-    song = self.new
-    song.save
-    song
+    self.new.save
+    self.all.last
   end
 
   def self.new_by_name(title)
-    song = self.new
-    song.name = title
-    song
+    # song = self.new
+    # song.name = title
+    # song
+    self.new.tap {|song| song.name = title}
   end
 
   def self.create_by_name(title)
-    song = self.new_by_name(title)
-    song.save
-    song
+    self.new_by_name(title).save
+    self.all.last
   end
 
   def self.find_by_name(title)
@@ -44,18 +43,22 @@ class Song
   end
 
   def self.new_from_filename(filename)
+    # file = filename.split(" - ")
+    # artist = file.first
+    # title = file.last.split(".").first
+    # song = self.new_by_name(title)
+    # song.artist_name = artist
+    # song
+
     file = filename.split(" - ")
     artist = file.first
     title = file.last.split(".").first
-    song = self.new_by_name(title)
-    song.artist_name = artist
-    song
+    self.new_by_name(title).tap {|song| song.artist_name = artist}
   end
 
   def self.create_from_filename(filename)
-    song = self.new_from_filename(filename)
-    song.save
-    song
+    self.new_from_filename(filename).save
+    self.all.last
   end
 
   def self.destroy_all
